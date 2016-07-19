@@ -8,8 +8,6 @@ app.set('views', __dirname + '/views');
 //app.get('/', function(req,res) {
 //  res.send('Hello World');
 //});
-// what the heck
-what the double heck
 mongoose.connect('mongodb://localhost/imgPloadr');
 mongoose.connection.on('open', function() {
 console.log('Mongoose connected.');
