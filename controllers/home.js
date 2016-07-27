@@ -1,5 +1,5 @@
 var sidebar = require('../helpers/sidebar'),
-    ImageModel = require('../models').Image;;
+    ImageModel = require('../models').Image; //could also be ('..models/image')
 module.exports = {
   index: function(req, res) {
     //res.render('index');
@@ -7,6 +7,18 @@ module.exports = {
     var viewModel = {
       images: []
     };
+    ImageModel.find({}, {}, { sort: { timestamp: -1 }},
+      function(err, images) {
+        if (err) { throw err; }
+
+    viewModel.images = images;
+    sidebar(viewModel, function(viewModel) {
+      res.render('index', viewModel);
+          });
+      });
+    }
+  };
+
     /*var viewModel = {
     images: [
         {
@@ -49,14 +61,3 @@ module.exports = {
 //  sidebar(viewModel, function(viewModel) {
   //  res.render('index', viewModel);
   //});
-  ImageModel.find({}, {}, { sort: { timestamp: -1 }},
-function(err, images) {
-if (err) { throw err; }
-
-viewModel.images = images;
-sidebar(viewModel, function(viewModel) {
-res.render('index', viewModel);
-        });
-    });
-  }
-};

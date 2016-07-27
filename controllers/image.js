@@ -1,14 +1,14 @@
 var fs = require('fs'),
-    path = require('path');
-var sidebar = require('../helpers/sidebar'),
-    models = require('../models');
+    path = require('path'),
+    sidebar = require('../helpers/sidebar'),
+    Models = require('../models');
 module.exports = {
   index: function(req,res) {
     //res.send('The image:index controller ' + req.params.image_id);
     //res.render('image');
     var viewModel = {
-      image {},
-      comments []
+      image: {},
+      comments: []
     };
     /*
     var viewModel = {
@@ -61,22 +61,27 @@ module.exports = {
         } else {
           res.redirect('/');
         }
-      }
-    );
+      });
 
-  sidebar(viewModel, function(viewModel) {
-    res.render('image', viewModel);
-  });
+  //sidebar(viewModel, function(viewModel) {
+    //res.render('image', viewModel);
+  //});
   },
 
   create: function(req,res) {
   //  res.send('The image:create POST controller');
   var saveImage = function() {
+
     var possible = 'abcdefghijklmnopqrstuvwxyz0123456789',
         imageUrl = '';
     for (var i=0; i<6; i++) {
       imageUrl += possible.charAt(Math.floor(Math.random() * possible.length));
     }
+
+    Models.Image.find({filename: imageUrl }, function(err, images) {
+      if (images.length > 0) {
+        saveImage();
+      } else {
 
     //var tempPath = req.files[0].path,
       //  orig_file_name = req.files[0].originalname,
@@ -99,7 +104,7 @@ module.exports = {
             var newImg = new Models.Image({
                 title: req.body.title,
                 description: req.body.description,
-                filename: imgUrl + ext
+                filename: imageUrl + ext
             });
             newImg.save(function(err, image) {
               console.log('Successfully inserted image: ' + image.filename);
@@ -112,17 +117,11 @@ module.exports = {
             res.json(501, {error: 'Only image files are allowed.'});
           });
         }
+     }
+    });
   };
 
-  Models.Image.find({ filename: imgUrl }, function(err, images) {
-    if (images.length> 0) {
-      saveImage();
-    } else {
-        // do all the existing work...
-
-    }
-  });
-  //saveImage();
+  saveImage();
 
     },
   like: function(req,res) {

@@ -1,0 +1,21 @@
+body {
+  background-color: lightblue;
+}
+
+h1 {
+  color: navy;
+  margin-left: 50px
+}
+
+#time_button {
+  height:75px;
+  width: 200px;
+  margin-left: 30px;
+  background-color: red;
+}
+.time_class {
+  background-color: green;
+}
+.bib_class {
+  background-color: orange;
+}
